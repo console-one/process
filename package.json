@@ -1,0 +1,54 @@
+{
+  "name": "@console-one/process",
+  "version": "0.1.0",
+  "description": "Process framework: typed, event-emitting, subscribable long-running computations. Processes are addressable, controllable (pause/resume/cancel/seek), and compose via factories. Pairs with @console-one/multimap and @console-one/collections.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/console-one/process.git"
+  },
+  "bugs": {
+    "url": "https://github.com/console-one/process/issues"
+  },
+  "homepage": "https://github.com/console-one/process#readme",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "smoke": "node dist/smoke.js",
+    "test": "vitest run",
+    "prepublishOnly": "npm run clean && npm run build && npm run smoke"
+  },
+  "keywords": [
+    "process",
+    "runtime",
+    "addressable",
+    "subscribable",
+    "factory",
+    "controller",
+    "event-stream"
+  ],
+  "author": "Andrew Chalmers",
+  "license": "MIT",
+  "dependencies": {
+    "@console-one/multimap": "file:../multimap",
+    "@console-one/collections": "file:../collections"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.39",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}
