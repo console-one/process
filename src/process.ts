@@ -1,4 +1,4 @@
-import { ObjectAddress, ObjectAddressImpl } from "./vendor/address/index.js";
+import { ObjectAddress, ObjectAddressImpl } from "@console-one/address";
 import { IndexMap } from "@console-one/collections";
 import { SetMultimap } from "@console-one/multimap";
 import { ObjectStream } from "./vendor/stream/index.js";
@@ -32,20 +32,15 @@ export const DefaultRetentionPolicy: RetentionPolicy = {
 
 
 export interface Process {
-
   exceptionBlocking?: ExceptionBlockingRule;
   retention?: RetentionPolicy
   source?: ProcessRuntime
-
   done: boolean;
   running: boolean;
   id: ObjectAddress;
-
   maxSeq?: number 
-  
   _emit(event: ProcessEvent): void
   _setSource(provided: ProcessBody): void 
-
   message(data: any): void
   subscribe(subscription: (close: () => void | any) => (event: any) => void | any , inputClause?: any): () => void | any
 }
@@ -360,9 +355,7 @@ export class DefaultProcess implements Process {
         }
         return true;
       }
-
       if (!ev || ev.type !== 'processevent') return false;
-
       const push =
         (stream as any).publish?.bind(stream) ||
         (stream as any).next?.bind(stream);
@@ -389,7 +382,6 @@ export class DefaultProcess implements Process {
     if (typeof (stream as any).onCancel === "function") {
       (stream as any).onCancel(() => close());
     }
-
     return stream;
   }
 

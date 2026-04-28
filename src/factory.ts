@@ -1,4 +1,4 @@
-import { Address, ObjectAddress, ObjectAddressImpl } from "./vendor/address/index.js";
+import { Address, ObjectAddress, ObjectAddressImpl } from "@console-one/address";
 import { uuid } from "./vendor/stringutil.js";
 import { Controller, DefaultController } from "./controller.js";
 import {
@@ -53,10 +53,8 @@ export const typedProcessFactory = (
           errors,
           state: ctrl.state,
         };
-
         // Emit blocker + view of state
         ctrl.block(blockPayload);
-
         // Wait for unblock input: process.message([updateEvent])
         const [updateEvent] = (yield) as [any];
         if (!updateEvent) {
