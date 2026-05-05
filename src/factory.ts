@@ -9,7 +9,7 @@ import {
 
 
 /**
- * A process-factory. Very close in structure to a procedure in our other dialects. 
+ * A process-factory. Very close in structure to a procedure in our other dialects.
  */
 export class ProcessFactory {
   id: ObjectAddress;
@@ -34,11 +34,11 @@ export class ProcessFactory {
 }
 
 /**
- * A general description of how we would use this to integrate process factories with types. 
- * 
+ * A general description of how we would use this to integrate process factories with types.
+ *
  * On initial execution - generate the process. If inputs fail type guards - emit the errors
- * as blockers and accept patches to the state until type rules pass. This would enable 
- * the execution of connector setup workflows. 
+ * as blockers and accept patches to the state until type rules pass. This would enable
+ * the execution of connector setup workflows.
  */
 export const typedProcessFactory = (
   schema: { getErrors(state: any): any[] },
@@ -46,6 +46,7 @@ export const typedProcessFactory = (
 ): DefaultProcess => {
   return new DefaultProcess({
     source: async function* input(ctrl: Controller) {
+
       let errors = schema.getErrors(ctrl.state);
       while (errors.length > 0) {
         const blockPayload = {
@@ -53,9 +54,7 @@ export const typedProcessFactory = (
           errors,
           state: ctrl.state,
         };
-        // Emit blocker + view of state
         ctrl.block(blockPayload);
-        // Wait for unblock input: process.message([updateEvent])
         const [updateEvent] = (yield) as [any];
         if (!updateEvent) {
           ctrl.error(new Error("Blocked but no update provided"));
@@ -63,12 +62,15 @@ export const typedProcessFactory = (
         }
         if (updateEvent.type === "replace-state") ctrl.state = updateEvent.state;
         else ctrl.state = applyPatch(ctrl.state, updateEvent);
+        for (let item of ctrl.state) {
+
+        }
         errors = schema.getErrors(ctrl.state);
       }
-
       ctrl.completed(ctrl.state);
       return;
-    },
+    }
+    ,
   });
 };
 
